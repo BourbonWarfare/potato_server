@@ -26,11 +26,8 @@ dependencies = ["build_x64_release"]
 dependencies = ["move_x64_debug"]
 
 [tasks.updateSigs]
-script_runner = "python"
-script_extension = "py"
-script_runner_args = ["../tools/get_extension_hash.py"]
-script = '''
-'''
+command = "python"
+args = ["../tools/get_extension_hash.py"]
 dependencies = ["move_x64_release"]
 
 [tasks.release]
