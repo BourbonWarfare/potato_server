@@ -2,3 +2,13 @@ name = "potato_server"
 author = "Bourbon Warfare"
 prefix = "potato_server"
 mainprefix = "z"
+
+[files]
+include = [
+    "*.dll",
+    "*.so",
+    "mod.cpp",
+    "README*.md",  # Translated READMEs get moved to root in a hook (virtual file system)
+    "LICENSE",
+    "meta.cpp",
+]

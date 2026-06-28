@@ -1,0 +1,37 @@
+[tasks.build_x64_debug]
+install_crate = false
+command = "cargo"
+args = ["+stable-x86_64-pc-windows-msvc", "build"]
+
+[tasks.build_x64_release]
+install_crate = false
+command = "cargo"
+args = ["+stable-x86_64-pc-windows-msvc", "build", "--release"]
+
+[tasks.move_x64_debug]
+script_runner = "@shell"
+script = '''
+cp ./target/debug/potato_server.dll ../potato_server_x64.dll
+'''
+dependencies = ["build_x64_debug"]
+
+[tasks.move_x64_release]
+script_runner = "@shell"
+script = '''
+cp ./target/release/potato_server.dll ../potato_server_x64.dll
+'''
+dependencies = ["build_x64_release"]
+
+[tasks.debug]
+dependencies = ["move_x64_debug"]
+
+[tasks.updateSigs]
+script_runner = "python"
+script_extension = "py"
+script_runner_args = ["../tools/get_extension_hash.py"]
+script = '''
+'''
+dependencies = ["move_x64_release"]
+
+[tasks.release]
+dependencies = ["updateSigs"]

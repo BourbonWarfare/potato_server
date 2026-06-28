@@ -1,0 +1,11 @@
+[package]
+name = "potato_server"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "potato_server"
+crate-type = ["cdylib"]
+
+[dependencies]
+arma-rs = { version = "1.12.1", default-features = false, features = ["extension", "uuid"]}
