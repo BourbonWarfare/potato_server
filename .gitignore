@@ -6,3 +6,7 @@ texHeaders.bin
 *.swo
 *.biprivatekey
 Thumbs.db
+.hemttout
+hemtt
+hemtt.exe
+*.hemttprivatekey
