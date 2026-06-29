@@ -19,6 +19,7 @@ macro_rules! identifiable_error {
 enum ErrorClassId {
     Healthcheck = 100,
     Authentication = 110,
+    Session = 120,
 }
 
 pub mod healthcheck {
@@ -52,7 +53,6 @@ pub mod authentication {
     #[repr(u8)]
     enum Topic {
         LoginError = 1,
-        SessionError = 2,
     }
 
     #[derive(Error, Copy, Clone, Debug, Eq, PartialEq, Hash)]
@@ -60,20 +60,35 @@ pub mod authentication {
     pub enum LoginError {
         #[error("The bot token provided is invalid")]
         InvalidBotToken = 1,
+        #[error("Could not login")]
+        CouldNotLogin = 2,
     }
     identifiable_error!(LoginError, ErrorClassId::Authentication, Topic::LoginError);
+}
+
+pub mod session {
+    use super::{ErrorClassId, IdentifiableError, KindId, TopicId};
+    use thiserror::Error;
+
+    #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+    #[repr(u8)]
+    enum Topic {
+        SessionError = 1,
+    }
 
     #[derive(Error, Copy, Clone, Debug, Eq, PartialEq, Hash)]
     #[repr(u8)]
     pub enum SessionError {
-        #[error("Session could not be refreshed")]
-        CouldNotRefresh = 1,
+        #[error("There is no current session")]
+        NoCurrentSession = 1,
+        #[error("Insufficient playercount")]
+        InsufficientPlayercount = 2,
+        #[error("No mission exists with provided information")]
+        NoMissionExists = 3,
+        #[error("Could not get session for unknown reason")]
+        CouldNotGetSession = 4,
     }
-    identifiable_error!(
-        SessionError,
-        ErrorClassId::Authentication,
-        Topic::SessionError
-    );
+    identifiable_error!(SessionError, ErrorClassId::Session, Topic::SessionError);
 }
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]

@@ -2,8 +2,6 @@ use arma_rs::Group;
 
 mod authentication;
 mod interface;
-mod map;
-mod mission;
 mod session;
 mod status;
 
