@@ -1,18 +1,5 @@
 use arma_rs::{IntoArma, Value};
-use std::fmt::{self, Display, Formatter};
-
-macro_rules! identifiable_error {
-    ($ty:ty, $class:expr, $topic:expr) => {
-        impl IdentifiableError for $ty {
-            const CLASS: ErrorClassId = $class;
-            const TOPIC: TopicId = TopicId::new($topic as u8);
-
-            fn kind(self) -> KindId {
-                KindId::new(self as u8)
-            }
-        }
-    };
-}
+use std::fmt::Display;
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 #[repr(u8)]
@@ -22,116 +9,24 @@ enum ErrorClassId {
     Session = 120,
 }
 
-pub mod healthcheck {
-    use super::{ErrorClassId, IdentifiableError, KindId, TopicId};
-    use thiserror::Error;
+pub mod authentication;
+pub mod healthcheck;
+pub mod session;
+mod types;
 
-    #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-    #[repr(u8)]
-    enum Topic {
-        HealthcheckError = 1,
-    }
-
-    #[derive(Error, Copy, Clone, Debug, Eq, PartialEq, Hash)]
-    #[repr(u8)]
-    pub enum HealthcheckError {
-        #[error("The healthcheck failed")]
-        Failed = 1,
-    }
-    identifiable_error!(
-        HealthcheckError,
-        ErrorClassId::Healthcheck,
-        Topic::HealthcheckError
-    );
-}
-
-pub mod authentication {
-    use super::{ErrorClassId, IdentifiableError, KindId, TopicId};
-    use thiserror::Error;
-
-    #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-    #[repr(u8)]
-    enum Topic {
-        LoginError = 1,
-    }
-
-    #[derive(Error, Copy, Clone, Debug, Eq, PartialEq, Hash)]
-    #[repr(u8)]
-    pub enum LoginError {
-        #[error("The bot token provided is invalid")]
-        InvalidBotToken = 1,
-        #[error("Could not login")]
-        CouldNotLogin = 2,
-    }
-    identifiable_error!(LoginError, ErrorClassId::Authentication, Topic::LoginError);
-}
-
-pub mod session {
-    use super::{ErrorClassId, IdentifiableError, KindId, TopicId};
-    use thiserror::Error;
-
-    #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-    #[repr(u8)]
-    enum Topic {
-        SessionError = 1,
-    }
-
-    #[derive(Error, Copy, Clone, Debug, Eq, PartialEq, Hash)]
-    #[repr(u8)]
-    pub enum SessionError {
-        #[error("There is no current session")]
-        NoCurrentSession = 1,
-        #[error("Insufficient playercount")]
-        InsufficientPlayercount = 2,
-        #[error("No mission exists with provided information")]
-        NoMissionExists = 3,
-        #[error("Could not get session for unknown reason")]
-        CouldNotGetSession = 4,
-    }
-    identifiable_error!(SessionError, ErrorClassId::Session, Topic::SessionError);
-}
-
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-#[repr(transparent)]
-struct TopicId(u8);
-impl TopicId {
-    pub const fn new(id: u8) -> Self {
-        Self(id)
-    }
-}
-
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-#[repr(transparent)]
-struct KindId(u8);
-impl KindId {
-    pub const fn new(id: u8) -> Self {
-        Self(id)
-    }
-}
-
-#[derive(IntoArma, Copy, Clone, Debug, Eq, PartialEq, Hash)]
-#[repr(transparent)]
-struct ErrorId(u32);
-
-impl ErrorId {
-    pub const fn new(class: ErrorClassId, topic: TopicId, kind: KindId) -> Self {
+impl types::ErrorId {
+    pub const fn new(class: ErrorClassId, topic: types::TopicId, kind: types::KindId) -> Self {
         Self(((class as u32) << 16) | ((topic.0 as u32) << 8) | (kind.0 as u32))
-    }
-}
-
-impl Display for ErrorId {
-    fn fmt(&self, formatter: &mut Formatter<'_>) -> fmt::Result {
-        write!(formatter, "{:#08X}", self.0)
     }
 }
 
 trait IdentifiableError: Display + Copy {
     const CLASS: ErrorClassId;
-    const TOPIC: TopicId;
+    const TOPIC: types::TopicId;
 
-    fn kind(self) -> KindId;
-    fn error_id(self) -> ErrorId {
-        ErrorId::new(Self::CLASS, Self::TOPIC, self.kind())
+    fn kind(self) -> types::KindId;
+    fn error_id(self) -> types::ErrorId {
+        types::ErrorId::new(Self::CLASS, Self::TOPIC, self.kind())
     }
 }
 
@@ -153,3 +48,18 @@ where
         ])
     }
 }
+
+#[macro_export]
+macro_rules! identifiable_error {
+    ($ty:ty, $class:expr, $topic:expr) => {
+        impl IdentifiableError for $ty {
+            const CLASS: ErrorClassId = $class;
+            const TOPIC: TopicId = TopicId::new($topic as u8);
+
+            fn kind(self) -> KindId {
+                KindId::new(self as u8)
+            }
+        }
+    };
+}
+pub use identifiable_error;
