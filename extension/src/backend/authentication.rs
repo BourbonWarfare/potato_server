@@ -1,6 +1,6 @@
 use crate::backend::interface::payloads::LoginBot;
 use arma_rs::{FromArma, FromArmaError, Group, IntoArma, Value};
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Local, Utc};
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -9,11 +9,18 @@ use crate::{
 };
 
 pub fn group() -> Group {
-    Group::new().command("login", command_login)
+    Group::new()
+        .command("login", command_login)
+        .command("session_expire_time", command_session_expire_time)
 }
 
 fn command_login(login: Login) -> Result<Session, ArmaError<auth::LoginError>> {
     login.try_create_session()
+}
+
+fn command_session_expire_time(session: Session) -> f64 {
+    let expire_time = session.expire_time - Local::now().to_utc();
+    expire_time.as_seconds_f64()
 }
 
 #[derive(FromArma, Debug, Clone)]
