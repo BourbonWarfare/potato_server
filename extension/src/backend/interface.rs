@@ -1,4 +1,4 @@
-use crate::backend::authentication::{Login, Session as AuthSession};
+use crate::backend::authentication::Session as AuthSession;
 use crate::backend::session::Session;
 use crate::backend::status;
 use crate::error::ArmaError;
