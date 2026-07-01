@@ -23,4 +23,4 @@ private _groups = [];
     ];
 } forEach (allGroups select { isPlayer leader _x });
 
-["groups", _groups]
+[["groups", _groups]]

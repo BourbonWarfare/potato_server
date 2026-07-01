@@ -3,7 +3,7 @@
 #define POT_PREFIX potato
 
 #define POTVAR(var) DOUBLES(POT_PREFIX,var)
-#define QPOTVAR(var) DOUBLES(POT_PREFIX,var)
+#define QPOTVAR(var) QUOTE(DOUBLES(POT_PREFIX,var))
 
 #define POTGVAR(module,var) TRIPLES(POT_PREFIX,module,var)
 #define QPOTGVAR(module,var) QUOTE(POTGVAR(module,var))

@@ -3,9 +3,12 @@
 // Handle getting the current session, plus re-authorizing if it is expired
 // Must handle case where session is not valid returned
 
-private _botToken = profileNamespace getVariable [format["%1_botToken", ADDON], ""];
+private _botTokenVariable = "potato_botToken";
+TRACE_1("backendSession",_botTokenVariable);
+
+private _botToken = profileNamespace getVariable [_botTokenVariable, ""];
 if (_botToken isEqualTo "") exitWith {
-    ERROR("No bot-token has been defined in `profileNameSpace`. Unable to get session");
+    WARNING_1("No bot-token has been defined in `profileNameSpace`. Unable to get session",_botTokenVariable);
     []
 };
 
