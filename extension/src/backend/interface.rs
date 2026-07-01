@@ -10,7 +10,17 @@ use url::Url;
 pub mod payloads;
 
 fn server_url() -> Url {
-    Url::parse("https://localhost").expect("URL location needs to be a valid URL format")
+    {
+        #[cfg(not(debug_assertions))]
+        {
+            Url::parse("https://127.0.0.1").expect("URL location needs to be a valid URL format")
+        }
+        #[cfg(debug_assertions)]
+        {
+            Url::parse("http://127.0.0.1:8080")
+                .expect("URL location needs to be a valid URL format")
+        }
+    }
 }
 
 fn api_url(path: impl AsRef<str>) -> Url {
@@ -39,12 +49,16 @@ pub fn login_bot(payload: payloads::LoginBot) -> Result<AuthSession, ArmaError<L
         .send()
         .map_err(|_| ArmaError::from(LoginError::InvalidBotToken))?
         .json()
-        .map_err(|_| ArmaError::from(LoginError::CouldNotLogin))?;
+        .map_err(|err| {
+            ArmaError::from(LoginError::CouldNotLogin {
+                reason: err.to_string(),
+            })
+        })?;
     Ok(response)
 }
 
 pub fn get_current_session(auth: AuthSession) -> Result<Session, ArmaError<SessionError>> {
-    let url = api_url("sessions/current");
+    let url = api_url("session/current");
     let response: Session = reqwest::blocking::Client::new()
         .get(url)
         .bearer_auth(auth.session_token)
@@ -59,12 +73,14 @@ pub fn finish_mission(
     auth: AuthSession,
     payload: payloads::FinishMission,
 ) -> Result<(), ArmaError<SessionError>> {
-    let url = api_url("sessions/mission/finish");
+    let url = api_url("session/mission/finish");
     reqwest::blocking::Client::new()
         .post(url)
         .bearer_auth(auth.session_token)
         .json(&payload)
         .send()
+        .map_err(|_| SessionError::CouldNotGetSession)?
+        .error_for_status()
         .map_err(|err| {
             ArmaError::from(if let Some(status) = err.status() {
                 match status.as_u16() {

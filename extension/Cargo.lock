@@ -27,6 +27,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4ae6e1d467f4fa3b57a5eca567551abd8638c57af7db4ac4b53c6a5aa1fff761"
 dependencies = [
  "arma-rs-proc",
+ "chrono",
  "crossbeam-channel",
  "libc",
  "link_args",

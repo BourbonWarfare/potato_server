@@ -20,7 +20,7 @@ impl types::ErrorId {
     }
 }
 
-trait IdentifiableError: Display + Copy {
+trait IdentifiableError: Display + Clone {
     const CLASS: ErrorClassId;
     const TOPIC: types::TopicId;
 
@@ -43,7 +43,7 @@ where
 {
     fn to_arma(&self) -> Value {
         Value::Array(vec![
-            self.0.error_id().to_arma(),
+            self.0.clone().error_id().to_arma(),
             Value::String(self.0.to_string()),
         ])
     }
@@ -57,7 +57,7 @@ macro_rules! identifiable_error {
             const TOPIC: TopicId = TopicId::new($topic as u8);
 
             fn kind(self) -> KindId {
-                KindId::new(self as u8)
+                KindId::from(self)
             }
         }
     };

@@ -20,4 +20,11 @@ pub enum SessionError {
     #[error("Could not get session for unknown reason")]
     CouldNotGetSession = 4,
 }
+
+impl From<SessionError> for KindId {
+    fn from(value: SessionError) -> Self {
+        KindId::new(value as u8)
+    }
+}
+
 identifiable_error!(SessionError, ErrorClassId::Session, Topic::SessionError);

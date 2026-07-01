@@ -14,6 +14,11 @@ pub enum HealthcheckError {
     #[error("The healthcheck failed")]
     Failed = 1,
 }
+impl From<HealthcheckError> for KindId {
+    fn from(value: HealthcheckError) -> Self {
+        KindId::new(value as u8)
+    }
+}
 identifiable_error!(
     HealthcheckError,
     ErrorClassId::Healthcheck,
