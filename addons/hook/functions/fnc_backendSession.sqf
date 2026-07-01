@@ -3,7 +3,7 @@
 // Handle getting the current session, plus re-authorizing if it is expired
 // Must handle case where session is not valid returned
 
-private _botToken = profileNameSpace getVariable [format["%1_botToken", ADDON], ""];
+private _botToken = profileNamespace getVariable [format["%1_botToken", ADDON], ""];
 if (_botToken isEqualTo "") exitWith {
     ERROR("No bot-token has been defined in `profileNameSpace`. Unable to get session");
     []

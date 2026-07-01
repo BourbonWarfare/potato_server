@@ -1,11 +1,11 @@
 #include "script_component.hpp"
 
-TRACE_1(GVAR(safeStartDisabled));
+TRACE_1("event_missionEnded",GVAR(safeStartDisabled));
 if !(GVAR(safeStartDisabled)) exitWith {};
 
 {
     GVAR(recruitsSeen) set [name _x, true];
-} forEach call FUNC(recruits)
+} forEach call FUNC(recruits);
 TRACE_1("Recruits at mission end",count GVAR(recruitsSeen));
 
 private _session = call FUNC(backendSession);
