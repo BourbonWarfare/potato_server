@@ -69,6 +69,32 @@ pub fn get_current_session(auth: AuthSession) -> Result<Session, ArmaError<Sessi
     Ok(response)
 }
 
+pub fn safe_start_disabled(
+    auth: AuthSession,
+    payload: payloads::SafeStartEnd,
+) -> Result<(), ArmaError<SessionError>> {
+    let url = api_url("session/mission/safeStart/disabled");
+    reqwest::blocking::Client::new()
+        .post(url)
+        .bearer_auth(auth.session_token)
+        .json(&payload)
+        .send()
+        .map_err(|_| SessionError::CouldNotEndSafeStart)?
+        .error_for_status()
+        .map_err(|err| {
+            ArmaError::from(if let Some(status) = err.status() {
+                match status.as_u16() {
+                    400 => SessionError::InsufficientPlayercount,
+                    404 => SessionError::NoMissionExists,
+                    _ => SessionError::CouldNotEndSafeStart,
+                }
+            } else {
+                SessionError::CouldNotEndSafeStart
+            })
+        })?;
+    Ok(())
+}
+
 pub fn finish_mission(
     auth: AuthSession,
     payload: payloads::FinishMission,
@@ -79,17 +105,17 @@ pub fn finish_mission(
         .bearer_auth(auth.session_token)
         .json(&payload)
         .send()
-        .map_err(|_| SessionError::CouldNotGetSession)?
+        .map_err(|_| SessionError::CouldNotEndMission)?
         .error_for_status()
         .map_err(|err| {
             ArmaError::from(if let Some(status) = err.status() {
                 match status.as_u16() {
                     400 => SessionError::InsufficientPlayercount,
                     404 => SessionError::NoMissionExists,
-                    _ => SessionError::CouldNotGetSession,
+                    _ => SessionError::CouldNotEndMission,
                 }
             } else {
-                SessionError::CouldNotGetSession
+                SessionError::CouldNotEndMission
             })
         })?;
     Ok(())

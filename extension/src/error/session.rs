@@ -19,6 +19,10 @@ pub enum SessionError {
     NoMissionExists = 3,
     #[error("Could not get session for unknown reason")]
     CouldNotGetSession = 4,
+    #[error("Could not end safe start for unknown reason")]
+    CouldNotEndSafeStart = 5,
+    #[error("Could not end mission for unknown reason")]
+    CouldNotEndMission = 6,
 }
 
 impl From<SessionError> for KindId {

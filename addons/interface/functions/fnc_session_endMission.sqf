@@ -1,8 +1,8 @@
 #include "script_component.hpp"
 
-params ["_session", "_armaSession", "_missionName", "_worldName", "_playerCount"];
+params ["_session", "_armaSession", "_missionName", "_worldName", "_orbat"];
 
-(EXTENSION callExtension ["backend:session:finish_mission", [_session, _armaSession, _missionName, _worldName, _playerCount]]) params ["_result", "_returnCode", "_errorCode"];
+(EXTENSION callExtension ["backend:session:finish_mission", [_session, _armaSession, _missionName, _worldName, _orbat]]) params ["_result", "_returnCode", "_errorCode"];
 if (_errorCode != 0) exitWith {
     switch (_errorCode) do {
         case 102: {
