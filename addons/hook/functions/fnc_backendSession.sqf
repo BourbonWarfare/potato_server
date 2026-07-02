@@ -8,7 +8,7 @@ TRACE_1("backendSession",_botTokenVariable);
 
 private _botToken = profileNamespace getVariable [_botTokenVariable, ""];
 if (_botToken isEqualTo "") exitWith {
-    WARNING_1("No bot-token has been defined in `profileNameSpace`. Unable to get session",_botTokenVariable);
+    WARNING_1("No bot-token has been defined: `profileNameSpace getVariable %1`. Unable to get session",_botTokenVariable);
     []
 };
 
