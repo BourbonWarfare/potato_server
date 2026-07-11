@@ -3,7 +3,7 @@
 // Handle getting the current session, plus re-authorizing if it is expired
 // Must handle case where session is not valid returned
 
-private _botTokenVariable = "potato_botToken";
+private _botTokenVariable = "potato_botToken"; // Hardcoded for now??
 TRACE_1("backendSession",_botTokenVariable);
 
 private _botToken = profileNamespace getVariable [_botTokenVariable, ""];
