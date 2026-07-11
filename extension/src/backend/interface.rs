@@ -13,7 +13,8 @@ fn server_url() -> Url {
     {
         #[cfg(not(debug_assertions))]
         {
-            Url::parse("https://127.0.0.1:12239").expect("URL location needs to be a valid URL format")
+            Url::parse("http://127.0.0.1:12239")
+                .expect("URL location needs to be a valid URL format")
         }
         #[cfg(debug_assertions)]
         {
