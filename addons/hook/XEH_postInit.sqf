@@ -8,7 +8,7 @@ if !(_isBwmf) exitWith {
 
 GVAR(safeStartDisabled) = false;
 GVAR(recruitsSeen) = createHashMap;
-GVAR(missionName) = missionNameSource;
+GVAR(missionName) = missionName;
 GVAR(worldName) = worldName;
 
 [{time >= MISSION_LOAD_BUFFER_TIME}, LINKFUNC(event_missionLoad)] call CBA_fnc_waitUntilAndExecute;
