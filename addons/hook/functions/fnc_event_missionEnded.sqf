@@ -13,4 +13,4 @@ if (_session isEqualTo []) exitWith {};
 
 private _currentArmaSession = [_session] call EFUNC(interface,session_current);
 
-[_session, _currentArmaSession, GVAR(missionName), GVAR(worldName), call FUNC(orbat)] call EFUNC(interface,session_endMission);
+[_session, _currentArmaSession, GVAR(missionName), GVAR(worldName), GVAR(safeStartOrbat), call FUNC(orbat)] call EFUNC(interface,session_endMission);

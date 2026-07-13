@@ -10,6 +10,7 @@ GVAR(safeStartDisabled) = false;
 GVAR(recruitsSeen) = createHashMap;
 GVAR(missionName) = missionName;
 GVAR(worldName) = worldName;
+GVAR(safeStartOrbat) = [];
 
 [{time >= MISSION_LOAD_BUFFER_TIME}, LINKFUNC(event_missionLoad)] call CBA_fnc_waitUntilAndExecute;
 [QPOTVAR(safeStartOff), LINKFUNC(event_safeStartOff)] call CBA_fnc_addEventHandler;

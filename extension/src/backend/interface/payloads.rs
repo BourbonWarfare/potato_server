@@ -7,7 +7,8 @@ pub struct FinishMission {
     pub session_id: uuid::Uuid,
     pub mission_name_with_version: String,
     pub mission_map: String,
-    pub orbat: Orbat,
+    pub starting_orbat: Orbat,
+    pub final_orbat: Orbat,
 }
 
 #[derive(Serialize, Deserialize)]

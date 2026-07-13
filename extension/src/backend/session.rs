@@ -30,7 +30,8 @@ fn command_finish_mission(
     session: Session,
     mission: String,
     map: String,
-    orbat: Orbat,
+    starting_orbat: Orbat,
+    final_orbat: Orbat,
 ) -> Result<(), ArmaError<session::SessionError>> {
     interface::finish_mission(
         auth,
@@ -38,7 +39,8 @@ fn command_finish_mission(
             session_id: session.id,
             mission_name_with_version: mission,
             mission_map: map,
-            orbat,
+            starting_orbat,
+            final_orbat,
         },
     )
 }
