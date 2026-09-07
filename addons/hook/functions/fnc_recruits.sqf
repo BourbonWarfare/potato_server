@@ -2,4 +2,4 @@
 
 // Return a list of recruits
 
-allUnits select {(alive _x) && {isPlayer _x} && {[_x] call POTFUNC(recruits,isNotMember)}};
+([] call CBA_fnc_players) select {[_x] call POTFUNC(recruits,isNotMember)};

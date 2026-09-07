@@ -1,7 +1,7 @@
 #include "script_component.hpp"
 // Generate a formatted ORBAT from all players
 
-private _groups = [];
+private _groups = []; // Do you resort this in the bot?
 
 {
     private _members = [];
