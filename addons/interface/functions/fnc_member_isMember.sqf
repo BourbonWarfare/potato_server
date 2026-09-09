@@ -2,7 +2,7 @@
 
 params [["_id", "", ["", objNull]]];
 
-if (!(_id isEqualType objNull)) then {
+if (_id isEqualType objNull) then {
     _id = getPlayerUID _id;
 };
 if (_id == "") exitWith {false};
