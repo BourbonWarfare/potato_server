@@ -20,3 +20,11 @@ if (isDedicated) then {
 } else {
     addMissionEventHandler ["Ended", LINKFUNC(event_missionEnded)];
 };
+
+
+addMissionEventHandler ["PlayerConnected", {
+	params ["_id", "_uid"];
+    if ([_uid] call EFUNC(interface,member_isMember)) then {
+        [QPOTGVAR(recruits,addMemberId), _uid, _uid] call CBA_fnc_globalEventJIP;
+    };
+}];

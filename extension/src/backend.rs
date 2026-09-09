@@ -2,6 +2,7 @@ use arma_rs::Group;
 
 mod authentication;
 mod interface;
+mod member;
 mod session;
 mod status;
 
@@ -10,6 +11,7 @@ pub fn group() -> Group {
         .command("healthcheck", command_healthcheck)
         .group("session", session::group())
         .group("auth", authentication::group())
+        .group("member", member::group())
 }
 
 fn command_healthcheck() -> String {
