@@ -1,6 +1,6 @@
 #include "script_component.hpp"
 #define SEPERATOR +++++
-#define FORMAT_STRING QUOTE(%1SEPERATOR%2SEPERATOR%3SEPERATOR%4SEPERATOR%5SEPERATOR)
+#define FORMAT_STRING QUOTE(%1SEPERATOR%2SEPERATOR%3SEPERATOR%4SEPERATOR%5)
 
 private _session = call FUNC(backendSession);
 if (_session isEqualTo []) exitWith {};
