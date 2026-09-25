@@ -2,7 +2,7 @@
 
 params ["_session", "_tag", "_message"];
 
-(EXTENSION callExtension ["backend:event:send", [_session, _tag, _message]]) params ["_result", "_returnCode", "_errorCode"];
+(EXTENSION callExtension ["backend:event:send", [_session, _tag, _message, "main"]]) params ["_result", "_returnCode", "_errorCode"];
 if (_errorCode != 0) exitWith {
     switch (_errorCode) do {
         case 102: {

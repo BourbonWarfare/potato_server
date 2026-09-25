@@ -1,5 +1,5 @@
 class PotatoServer_ExtensionsHashes {
     class potato_server {
-        dll_x64 = "55ca06024e811eabcb0e7a4b1f9206ea3d4a88b7";
+        dll_x64 = "3d9d1e26040e843f3bfbd3e6fcd2a2633157292e";
     };
 };

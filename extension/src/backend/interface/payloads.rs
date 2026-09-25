@@ -28,4 +28,5 @@ pub struct LoginBot {
 pub struct Event {
     pub tag: String,
     pub message: String,
+    pub server: String,
 }
