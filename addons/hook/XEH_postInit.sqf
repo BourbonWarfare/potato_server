@@ -28,3 +28,6 @@ addMissionEventHandler ["PlayerConnected", {
         [QPOTGVAR(recruits,addMember), _uid, _uid] call CBA_fnc_globalEventJIP;
     };
 }];
+
+addMissionEventHandler ["ScriptError", LINKFUNC(event_scriptError)];
+[QPOTVAR(adminMsg), LINKFUNC(event_adminMessage)] call CBA_fnc_addEventHandler;

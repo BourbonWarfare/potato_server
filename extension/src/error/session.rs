@@ -23,6 +23,8 @@ pub enum SessionError {
     CouldNotEndSafeStart = 5,
     #[error("Could not end mission for unknown reason")]
     CouldNotEndMission = 6,
+    #[error("Could not send event for unknown reason")]
+    CouldNotSendEvent = 7,
 }
 
 impl From<SessionError> for KindId {

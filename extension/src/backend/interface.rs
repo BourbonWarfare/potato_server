@@ -121,3 +121,19 @@ pub fn finish_mission(
         })?;
     Ok(())
 }
+
+pub fn send_event(
+    auth: AuthSession,
+    payload: payloads::Event,
+) -> Result<(), ArmaError<SessionError>> {
+    let url = api_url("server_ops/arma/events");
+    reqwest::blocking::Client::new()
+        .post(url)
+        .bearer_auth(auth.session_token)
+        .json(&payload)
+        .send()
+        .map_err(|_| SessionError::CouldNotSendEvent)?
+        .error_for_status()
+        .map_err(|_| SessionError::CouldNotSendEvent)?;
+    Ok(())
+}

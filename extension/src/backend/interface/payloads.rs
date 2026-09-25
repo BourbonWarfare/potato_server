@@ -23,3 +23,9 @@ pub struct SafeStartEnd {
 pub struct LoginBot {
     pub bot_token: String,
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct Event {
+    pub tag: String,
+    pub message: String,
+}

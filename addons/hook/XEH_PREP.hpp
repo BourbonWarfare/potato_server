@@ -1,7 +1,9 @@
 PREP(backendSession);
+PREP(event_adminMessage);
 PREP(event_missionEnded);
 PREP(event_missionLoad);
 PREP(event_safeStartOff);
+PREP(event_scriptError);
 PREP(isBwmf);
 PREP(orbat);
 PREP(recruits);
